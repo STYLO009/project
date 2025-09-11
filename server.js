@@ -12,9 +12,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Twilio credentials (replace with your actual ones)
-const accountSid = "AC9856326c05a01e42685cb381112a5d61";
-const authToken = "fc070c6efa62b9c453810fa46a246012";
-const twilioPhone = "+14144416023 "; // Your Twilio phone number
+const accountSid = "";
+const authToken = "";
+const twilioPhone = ""; // Your Twilio phone number
 const client = twilio(accountSid, authToken);
 
 // File paths
