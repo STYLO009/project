@@ -3,8 +3,8 @@ import React from "react";
 
 const ChatPage = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#1a1a1a] text-white">
-      <h1>Chat Page Placeholder</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-green-400 text-3xl">
+      Chat Page Coming Soon...
     </div>
   );
 };

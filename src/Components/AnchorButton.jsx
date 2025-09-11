@@ -7,7 +7,16 @@ const AnchorButton = ({ to, children, className = "" }) => {
   return (
     <button
       onClick={() => navigate(to)}
-      className={`text-xs text-indigo-600 hover:text-indigo-500 underline font-medium cursor-pointer ${className}`}
+      className={`
+        text-sm
+        text-green-400           /* matches theme accent */
+        font-medium
+        hover:text-green-300
+        hover:underline
+        transition-colors duration-200
+        cursor-pointer
+        ${className}
+      `}
     >
       {children}
     </button>
