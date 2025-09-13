@@ -1,12 +1,21 @@
+// src/Components/Anchortag.jsx
 import React from "react";
 
-const Anchortag = ({ label, href }) => {
+const Anchortag = ({ label, targetId }) => {
+  const handleClick = () => {
+    const section = document.getElementById(targetId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <div>
-      <a href={href} className="hover:text-green-400 transition text-gray-300">
-        {label}
-      </a>
-    </div>
+    <button
+      onClick={handleClick}
+      className="text-gray-200 hover:text-green-400 font-semibold transition"
+    >
+      {label}
+    </button>
   );
 };
 

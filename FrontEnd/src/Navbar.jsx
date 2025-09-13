@@ -16,16 +16,20 @@ export default function Navbar() {
           className="flex items-center gap-2 cursor-pointer"
           onClick={() => navigate("/home")}
         >
-          <img src={Logo} alt="Sanjeevani Logo" className="h-8 w-8" />
+          <img
+            src={Logo}
+            alt="Sanjeevani Logo"
+            className="h-7 w-7 brightness-150"
+          />
           <span className="text-xl font-bold text-green-400">Sanjeevani</span>
         </div>
 
         {/* Links (desktop only) */}
         <div className="hidden md:flex gap-6 px-6 py-2 rounded-full bg-gray-800/90 backdrop-blur-md border border-gray-700 shadow-lg">
-          <Anchortag label="Home" />
-          <Anchortag label="About" />
-          <Anchortag label="Features" />
-          <Anchortag label="Contact" />
+          <Anchortag label="Home" targetId="home" />
+          <Anchortag label="About" targetId="about" />
+          <Anchortag label="Features" targetId="features" />
+          <Anchortag label="Contact" targetId="contact" />
         </div>
 
         {/* Buttons */}
