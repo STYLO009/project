@@ -1,5 +1,6 @@
 // src/LandingPage.jsx
 import React, { useState } from "react";
+import { Globe, Syringe, Bell, ShieldCheck } from "lucide-react";
 import Navbar from "./Navbar";
 import Logo from "./Images/Logo.png";
 import LoginModal from "./LoginModal";
@@ -41,7 +42,7 @@ const LandingPage = () => {
 
           {/* Hero Text */}
           <div className="flex flex-col justify-center items-center text-center w-full md:w-1/2">
-            <h1 className="text-4xl md:text-5xl font-semibold text-green-400 mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold text-green-400 mb-6">
               Welcome to Sanjeevani
             </h1>
             <p className="text-lg md:text-xl max-w-xl mb-6">
@@ -60,18 +61,40 @@ const LandingPage = () => {
         </section>
 
         {/* Card Section */}
-        <section className="flex justify-center gap-6 p-6 text-gray-200">
-          <Card textTop="24x7" textBottom="Available" />
-          <Card textTop="80%+" textBottom="Accuracy" />
-          <Card textTop="Multilingual" textBottom="Chatbot" />
-          <Card textTop="Real-time" textBottom="Alerts" />
-          <Card textTop="Accessible via" textBottom="WhatsApp/SMS" />
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-gray-200">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            <Card
+              textTop="24x7"
+              textBottom="Available"
+              para="Our service runs round-the-clock ensuring you never miss out on critical updates."
+            />
+            <Card
+              textTop="90%+"
+              textBottom="Accuracy"
+              para="Reliable predictions with over 90% accuracy, helping you make informed decisions."
+            />
+            <Card
+              textTop="Multilingual"
+              textBottom="Chatbot"
+              para="Communicate seamlessly in multiple languages for a personalized experience."
+            />
+            <Card
+              textTop="Real-time"
+              textBottom="Alerts"
+              para="Instant notifications keep you informed about important events as they happen."
+            />
+            <Card
+              textTop="Accessible via"
+              textBottom="WhatsApp/SMS"
+              para="Stay connected through your favorite platforms including WhatsApp and SMS."
+            />
+          </div>
         </section>
 
         {/* Features Section */}
         <section
           id="features"
-          className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 text-gray-200"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 text-gray-200"
         >
           <div className="border border-gray-700 rounded-3xl p-4 sm:p-6 md:p-8 bg-black/20 backdrop-blur-md shadow-lg">
             <h2 className="text-2xl sm:text-3xl font-semibold text-center text-green-400 mb-6 sm:mb-8">
@@ -80,34 +103,75 @@ const LandingPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
               {/* Left Text Area */}
-              <div className="border border-gray-600 rounded-2xl p-4 sm:p-6 text-gray-300 text-center md:text-left bg-gray-900/20">
-                <h3 className="text-lg sm:text-xl font-semibold mb-3">
+              <div
+                className="border border-green-500 rounded-2xl p-4 sm:p-6 text-gray-300 text-center md:text-left bg-gray-900/20 
+  shadow-[0_0_20px_rgba(34,197,94,0.5)]"
+              >
+                <h3 className="text-lg sm:text-xl font-semibold mb-4 text-center">
                   Why Choose Us?
                 </h3>
-                <p className="text-sm sm:text-base leading-relaxed">
-                  Our{" "}
-                  <span className="font-semibold">
-                    AI-driven multilingual chatbot
-                  </span>{" "}
-                  educates users on{" "}
-                  <span className="font-semibold">preventive healthcare</span>,
-                  provides{" "}
-                  <span className="font-semibold">
-                    disease symptom information
-                  </span>
-                  , and shares{" "}
-                  <span className="font-semibold">vaccination schedules</span>.
-                  Integrated with{" "}
-                  <span className="font-semibold">
-                    government health databases
-                  </span>{" "}
-                  for <span className="font-semibold">real-time alerts</span>{" "}
-                  and reliable, secure information.
-                </p>
+
+                <ul className="text-sm sm:text-base leading-relaxed space-y-4">
+                  <li className="flex items-start gap-3">
+                    <Globe className="w-5 h-5 text-green-500 flex-shrink-0 mt-1 animate-pulseIcon" />
+                    <span>
+                      <span className="font-semibold">
+                        Multilingual Access:
+                      </span>{" "}
+                      Our AI chatbot supports{" "}
+                      <span className="font-semibold">any language</span>,
+                      making healthcare information inclusive and easy to
+                      understand.
+                    </span>
+                  </li>
+
+                  <li className="flex items-start gap-3">
+                    <Syringe className="w-5 h-5 text-green-500 flex-shrink-0 mt-1 animate-pulseIcon" />
+                    <span>
+                      <span className="font-semibold">
+                        Vaccination Schedules:
+                      </span>{" "}
+                      Stay up-to-date with{" "}
+                      <span className="font-semibold">
+                        personalized vaccination plans
+                      </span>{" "}
+                      and reminders.
+                    </span>
+                  </li>
+
+                  <li className="flex items-start gap-3">
+                    <Bell className="w-5 h-5 text-green-500 flex-shrink-0 mt-1 animate-pulseIcon" />
+                    <span>
+                      <span className="font-semibold">Alerts & Reminders:</span>{" "}
+                      Receive{" "}
+                      <span className="font-semibold">real-time alerts</span>{" "}
+                      and notifications for important health updates.
+                    </span>
+                  </li>
+
+                  <li className="flex items-start gap-3">
+                    <ShieldCheck className="w-5 h-5 text-green-500 flex-shrink-0 mt-1 animate-pulseIcon" />
+                    <span>
+                      <span className="font-semibold">Secure Integration:</span>{" "}
+                      Connected with{" "}
+                      <span className="font-semibold">
+                        government health databases
+                      </span>{" "}
+                      for{" "}
+                      <span className="font-semibold">
+                        reliable, accurate information
+                      </span>
+                      .
+                    </span>
+                  </li>
+                </ul>
               </div>
 
               {/* Right Video Area */}
-              <div className="border border-gray-600 rounded-2xl p-3 sm:p-6 md:col-span-2 bg-gray-900/20 flex justify-center items-center">
+              <div
+                className="border border-green-500 rounded-2xl p-3 sm:p-6 md:col-span-2 bg-gray-900/20 
+  shadow-[0_0_20px_rgba(34,197,94,0.5)] flex justify-center items-center"
+              >
                 <div className="w-full aspect-video bg-gray-800 rounded-xl flex items-center justify-center text-gray-400 text-sm sm:text-base">
                   Video area (Demo coming soon)
                 </div>

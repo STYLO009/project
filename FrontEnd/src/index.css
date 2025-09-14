@@ -1,12 +1,20 @@
+/* ✅ Keep your imports */
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+/* ✅ Apply the font globally */
 @layer base {
   html,
-  body,
+  body {
+    @apply font-sans; /* Uses Tailwind's sans — mapped to Poppins in config */
+  }
+
   #root {
     height: 100%;
   }
 }
-/* Hide scrollbar but keep scrolling */
+
+/* ✅ Hide scrollbar but keep scrolling */
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }

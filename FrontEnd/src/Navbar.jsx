@@ -25,7 +25,7 @@ export default function Navbar() {
         </div>
 
         {/* Links (desktop only) */}
-        <div className="hidden md:flex gap-6 px-6 py-2 rounded-full bg-gray-800/90 backdrop-blur-md border border-gray-700 shadow-lg">
+        <div className="hidden md:flex gap-6 px-6 py-2 rounded-full bg-gray-800/90 backdrop-blur-md border border-gray-700 shadow-lg ">
           <Anchortag label="Home" targetId="home" />
           <Anchortag label="About" targetId="about" />
           <Anchortag label="Features" targetId="features" />
@@ -44,7 +44,7 @@ export default function Navbar() {
           </a>
           <button
             onClick={() => setShowLogin(true)} // ✅ Open modal
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full font-semibold shadow-md transition"
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full font-semibold shadow-md transition cursor-pointer"
           >
             Login
           </button>

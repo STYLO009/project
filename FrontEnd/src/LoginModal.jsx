@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+// ✅ Make sure these paths are correct (case-sensitive)
 import InputField from "./Components/InputField";
 import Button from "./Components/Button";
-import AnchorButton from "./Components/AnchorButton";
-import ForgotPasswordModal from "./ForgotPasswordModal"; // ✅ import modal
+import ForgotPasswordModal from "./ForgotPasswordModal";
+import SignUpModal from "./SignupModal"; // ✅ Import the signup modal
 
 const LoginModal = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showForgot, setShowForgot] = useState(false); // ✅ state for forgot modal
+  const [showForgot, setShowForgot] = useState(false);
+  const [showSignUp, setShowSignUp] = useState(false); // ✅ New state for signup modal
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -19,29 +22,33 @@ const LoginModal = ({ onClose }) => {
       return;
     }
 
-    // Simulate login success
+    // ✅ Simulate login then close + navigate
     setTimeout(() => {
-      onClose(); // close modal first
-      navigate("/chatPage"); // then navigate
+      onClose();
+      navigate("/chatPage");
     }, 500);
   };
 
   return (
     <>
-      {/* if showForgot true -> render forgot modal */}
+      {/* Forgot Password Modal */}
       {showForgot && (
         <ForgotPasswordModal
           onClose={() => {
             setShowForgot(false);
-            onClose(); // closes LoginModal as well
+            onClose();
           }}
         />
       )}
 
-      {/* Dark overlay + blur */}
-      {!showForgot && (
+      {/* Sign Up Modal */}
+      {showSignUp && (
+        <SignUpModal show={showSignUp} onClose={() => setShowSignUp(false)} />
+      )}
+
+      {/* Login Modal */}
+      {!showForgot && !showSignUp && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-          {/* Glassy login card */}
           <div
             className="
               relative
@@ -55,7 +62,7 @@ const LoginModal = ({ onClose }) => {
               overflow-y-auto scrollbar-hide
             "
           >
-            {/* Close Button (top-right) */}
+            {/* Close Button */}
             <button
               onClick={onClose}
               className="absolute top-4 right-4 text-gray-400 hover:text-green-400 text-xl"
@@ -103,7 +110,6 @@ const LoginModal = ({ onClose }) => {
             </form>
 
             <div className="flex justify-end mt-0.5 mb-4 w-full">
-              {/* ✅ open Forgot modal instead of Anchor */}
               <button
                 onClick={() => setShowForgot(true)}
                 className="text-green-400 hover:underline text-sm font-medium"
@@ -116,7 +122,12 @@ const LoginModal = ({ onClose }) => {
               <p className="text-sm text-gray-400 font-medium">
                 Don’t have an account?
               </p>
-              <AnchorButton to="/signup">Sign Up</AnchorButton>
+              <button
+                onClick={() => setShowSignUp(true)}
+                className="text-green-400 hover:underline text-xs "
+              >
+                Sign Up
+              </button>
             </div>
           </div>
         </div>

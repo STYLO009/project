@@ -12,7 +12,7 @@ const Anchortag = ({ label, targetId }) => {
   return (
     <button
       onClick={handleClick}
-      className="text-gray-200 hover:text-green-400 font-semibold transition"
+      className="text-gray-200 hover:text-green-400 font-semibold transition cursor-pointer"
     >
       {label}
     </button>
