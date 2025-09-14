@@ -42,8 +42,8 @@ const LandingPage = () => {
 
           {/* Hero Text */}
           <div className="flex flex-col justify-center items-center text-center w-full md:w-1/2">
-            <h1 className="text-4xl md:text-5xl font-bold text-green-400 mb-6">
-              Welcome to Sanjeevani
+            <h1 className="text-4xl md:text-5xl font-bold text-green-400 mb-6 whitespace-nowrap">
+              Welcome to SANJEEVANI
             </h1>
             <p className="text-lg md:text-xl max-w-xl mb-6">
               <span className="font-semibold">
@@ -53,8 +53,9 @@ const LandingPage = () => {
               <span className="font-semibold">
                 preventive healthcare education
               </span>
-              ,<span className="font-semibold">disease symptoms info</span>, and
-              <span className="font-semibold">vaccination schedules</span>{" "}
+              ,<span className="font-semibold"> disease symptoms info</span>,
+              and
+              <span className="font-semibold"> vaccination schedules</span>{" "}
               instantly, securely, and in your language.
             </p>
           </div>
