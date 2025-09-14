@@ -1,7 +1,9 @@
+// SignUpModal.jsx
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ import navigate
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
-// ✅ Corrected import paths (case-sensitive)
+// ✅ Corrected import paths
 import InputField from "./Components/InputField";
 import Button from "./Components/Button";
 
@@ -13,31 +15,39 @@ const SignUpModal = ({ show, onClose }) => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate(); // ✅ create navigate hook
+  const navigate = useNavigate();
 
-  if (!show) return null; // ✅ Don't render if modal is closed
+  if (!show) return null; // don’t render if modal is closed
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Basic required fields validation
     if (!firstName || !lastName || !email || !phone || !password) {
-      alert("Please fill in all required fields");
+      toast.error("Please fill in all required fields");
       return;
     }
 
-    // ✅ Simulate successful signup
-    console.log("User registered:", {
-      firstName,
-      middleName,
-      lastName,
-      email,
-      phone,
-      password,
-    });
+    // Phone validation: only digits & exactly 10 digits
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(phone)) {
+      toast.error("Please enter a valid 10-digit phone number");
+      return;
+    }
 
-    // ✅ Redirect to /home after signup
-    navigate("/home"); // ✅ navigate first
-    onClose(); // ✅ then close modal
+    // Show loading toast
+    const id = toast.loading("Signing you up...");
+
+    // Simulate async signup
+    setTimeout(() => {
+      toast.success("🎉 You have successfully registered!", { id });
+
+      // navigate to home after signup
+      navigate("/home");
+
+      // close modal
+      onClose();
+    }, 1500);
   };
 
   return (
@@ -80,7 +90,7 @@ const SignUpModal = ({ show, onClose }) => {
             onChange={(e) => setFirstName(e.target.value)}
           />
 
-          {/* Middle Name (optional) */}
+          {/* Middle Name */}
           <InputField
             label="Middle Name (Optional)"
             type="text"
@@ -143,6 +153,7 @@ const SignUpModal = ({ show, onClose }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
 
+          {/* Sign Up button */}
           <Button type="submit">Sign Up</Button>
 
           <div className="flex items-center my-4">
@@ -151,15 +162,15 @@ const SignUpModal = ({ show, onClose }) => {
             <hr className="flex-grow border-gray-700" />
           </div>
 
-          <Button>Register with Google</Button>
-          <Button>Register with Phone</Button>
+          <Button type="button">Register with Google</Button>
+          <Button type="button">Register with Phone</Button>
         </form>
 
         <div className="flex items-center justify-center mt-4 space-x-2">
           <p className="text-sm text-gray-400 font-medium">
             Already have an account?
           </p>
-          {/* ✅ This closes SignUpModal and shows LoginModal */}
+          {/* This closes SignUpModal and could open LoginModal */}
           <button
             onClick={onClose}
             className="text-green-400 hover:underline font-medium"
