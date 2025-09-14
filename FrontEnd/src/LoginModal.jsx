@@ -1,32 +1,41 @@
+// src/LoginModal.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-// ✅ Make sure these paths are correct (case-sensitive)
 import InputField from "./Components/InputField";
 import Button from "./Components/Button";
 import ForgotPasswordModal from "./ForgotPasswordModal";
-import SignUpModal from "./SignupModal"; // ✅ Import the signup modal
+import SignUpModal from "./SignupModal";
+import toast from "react-hot-toast";
 
 const LoginModal = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showForgot, setShowForgot] = useState(false);
-  const [showSignUp, setShowSignUp] = useState(false); // ✅ New state for signup modal
+  const [showSignUp, setShowSignUp] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!email || !password) {
-      alert("Please enter both email and password");
+      toast.error("Please enter both email and password");
       return;
     }
 
-    // ✅ Simulate login then close + navigate
+    // show loading toast
+    const id = toast.loading("Logging in...");
+
+    // simulate login request
     setTimeout(() => {
+      // Example: if login success
+      toast.success("Welcome back! 🎉", { id });
+      navigate("/home");
       onClose();
-      navigate("/chatPage");
-    }, 500);
+
+      // If you wanted to simulate an error instead:
+      // toast.error("Invalid credentials ❌", { id });
+    }, 1500);
   };
 
   return (

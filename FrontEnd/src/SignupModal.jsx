@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ import navigate
 
 // ✅ Corrected import paths (case-sensitive)
 import InputField from "./Components/InputField";
@@ -12,6 +13,8 @@ const SignUpModal = ({ show, onClose }) => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate(); // ✅ create navigate hook
+
   if (!show) return null; // ✅ Don't render if modal is closed
 
   const handleSubmit = (e) => {
@@ -22,6 +25,7 @@ const SignUpModal = ({ show, onClose }) => {
       return;
     }
 
+    // ✅ Simulate successful signup
     console.log("User registered:", {
       firstName,
       middleName,
@@ -30,7 +34,10 @@ const SignUpModal = ({ show, onClose }) => {
       phone,
       password,
     });
-    onClose(); // ✅ Close modal after successful signup
+
+    // ✅ Redirect to /home after signup
+    navigate("/home"); // ✅ navigate first
+    onClose(); // ✅ then close modal
   };
 
   return (

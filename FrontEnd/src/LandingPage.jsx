@@ -5,9 +5,37 @@ import Navbar from "./Navbar";
 import Logo from "./Images/Logo.png";
 import LoginModal from "./LoginModal";
 import Card from "./Components/card";
+import SignUpModal from "./SignupModal";
+import toast from "react-hot-toast";
 
 const LandingPage = () => {
   const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
+
+  // ✅ Form state
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  // ✅ Input change handler
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // ✅ Submit handler
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Reset form fields
+    setFormData({ name: "", email: "", message: "" });
+
+    // ✅ Show toast message
+    toast.success("✅ Message sent successfully! We’ll get back to you soon.");
+    // ✅ Reset form fields
+    setFormData({ name: "", email: "", message: "" });
+  };
 
   return (
     <div className="relative min-h-screen font-sans">
@@ -18,14 +46,12 @@ const LandingPage = () => {
         }`}
       ></div>
 
-      {/* Optional subtle overlay for extra depth */}
+      {/* Optional subtle overlay */}
       <div className="absolute inset-0 bg-black/10"></div>
 
       {/* Main content */}
       <div className="relative z-10">
-        <Navbar />
-
-        {/* Hero Section */}
+        <Navbar onLoginClick={() => setShowLogin(true)} /> {/* hook button */}
         {/* Hero Section */}
         <section
           id="home"
@@ -60,7 +86,6 @@ const LandingPage = () => {
             </p>
           </div>
         </section>
-
         {/* Card Section */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-gray-200">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
@@ -91,7 +116,6 @@ const LandingPage = () => {
             />
           </div>
         </section>
-
         {/* Features Section */}
         <section
           id="features"
@@ -106,7 +130,7 @@ const LandingPage = () => {
               {/* Left Text Area */}
               <div
                 className="border border-green-500 rounded-2xl p-4 sm:p-6 text-gray-300 text-center md:text-left bg-gray-900/20 
-  shadow-[0_0_20px_rgba(34,197,94,0.5)]"
+          shadow-[0_0_20px_rgba(34,197,94,0.5)]"
               >
                 <h3 className="text-lg sm:text-xl font-semibold mb-4 text-center">
                   Why Choose Us?
@@ -171,7 +195,7 @@ const LandingPage = () => {
               {/* Right Video Area */}
               <div
                 className="border border-green-500 rounded-2xl p-3 sm:p-6 md:col-span-2 bg-gray-900/20 
-  shadow-[0_0_20px_rgba(34,197,94,0.5)] flex justify-center items-center"
+          shadow-[0_0_20px_rgba(34,197,94,0.5)] flex justify-center items-center"
               >
                 <div className="w-full aspect-video bg-gray-800 rounded-xl flex items-center justify-center text-gray-400 text-sm sm:text-base">
                   Video area (Demo coming soon)
@@ -180,7 +204,6 @@ const LandingPage = () => {
             </div>
           </div>
         </section>
-
         {/* About Section */}
         <section id="about" className="w-full text-gray-200 py-16 px-6">
           <div className="max-w-6xl mx-auto text-center">
@@ -212,44 +235,80 @@ const LandingPage = () => {
             </p>
           </div>
         </section>
-
         {/* Contact Section */}
-        <section id="contact" className="w-full text-gray-200 py-16 px-6">
-          <div className="max-w-6xl mx-auto text-center">
-            <h2 className="text-3xl font-semibold text-green-400 mb-6">
+        <section
+          id="contact"
+          className="relative w-full text-gray-200 py-16 px-6"
+        >
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4 text-green-400">
               Contact Us
             </h2>
-            <p className="mb-8">
+
+            <p className="text-center text-gray-300 mb-10 max-w-5xl mx-auto">
               Have questions, suggestions, or feedback? Reach out for{" "}
-              <span className="font-semibold">community support</span> and{" "}
-              <span className="font-semibold">healthcare guidance</span>.
+              <span className="font-semibold text-green-400">
+                community support
+              </span>{" "}
+              and{" "}
+              <span className="font-semibold text-green-400">
+                healthcare guidance
+              </span>
+              .
             </p>
 
-            <div className="flex justify-center gap-4 flex-wrap">
-              <a
-                href="mailto:sanjeevani.project@example.com"
-                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full font-semibold shadow-md transition"
-              >
-                Email Us
-              </a>
-              <a
-                href="#"
-                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full font-semibold shadow-md transition cursor-not-allowed opacity-70"
-              >
-                WhatsApp (Coming Soon)
-              </a>
-              <a
-                href="#"
-                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full font-semibold shadow-md transition cursor-not-allowed opacity-70"
-              >
-                LinkedIn (Coming Soon)
-              </a>
+            <div className="border border-gray-700 rounded-3xl p-6 sm:p-10 bg-black/20 backdrop-blur-md shadow-lg max-w-3xl mx-auto">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-gray-900/40 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-200 placeholder-gray-400"
+                  required
+                />
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-gray-900/40 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-200 placeholder-gray-400"
+                  required
+                />
+
+                <textarea
+                  name="message"
+                  placeholder="Your Message"
+                  rows="5"
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-gray-900/40 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-200 placeholder-gray-400"
+                  required
+                />
+
+                <button
+                  type="submit"
+                  className="w-full py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-600 hover:opacity-90 text-white font-semibold transition"
+                >
+                  Send Message
+                </button>
+              </form>
             </div>
           </div>
         </section>
-
-        {/* Modal on top */}
-        {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
+        {/* 🔹 Modal on top */}
+        {showLogin && (
+          <LoginModal
+            onClose={() => setShowLogin(false)}
+            // You can add toast in parent later if needed
+          />
+        )}
+        {showSignup && (
+          <SignUpModal show={showSignup} onClose={() => setShowSignup(false)} />
+        )}
       </div>
     </div>
   );
