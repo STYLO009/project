@@ -1,11 +1,12 @@
 // src/LoginModal.jsx
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import InputField from "./Components/InputField";
 import Button from "./Components/Button";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import SignUpModal from "./SignupModal";
 import toast from "react-hot-toast";
+import { UserContext } from "./Context/UserContext"; // ✅ import context
 
 const LoginModal = ({ onClose }) => {
   const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ const LoginModal = ({ onClose }) => {
   const [showSignUp, setShowSignUp] = useState(false);
 
   const navigate = useNavigate();
+  const { setIsLoggedIn } = useContext(UserContext); // ✅ get setter
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,18 +25,16 @@ const LoginModal = ({ onClose }) => {
       return;
     }
 
-    // show loading toast
     const id = toast.loading("Logging in...");
 
     // simulate login request
     setTimeout(() => {
-      // Example: if login success
+      // Example success
       toast.success("Welcome back! 🎉", { id });
+
+      setIsLoggedIn(true); // ✅ mark logged in globally
       navigate("/home");
       onClose();
-
-      // If you wanted to simulate an error instead:
-      // toast.error("Invalid credentials ❌", { id });
     }, 1500);
   };
 
@@ -71,7 +71,6 @@ const LoginModal = ({ onClose }) => {
               overflow-y-auto scrollbar-hide
             "
           >
-            {/* Close Button */}
             <button
               onClick={onClose}
               className="absolute top-4 right-4 text-gray-400 hover:text-green-400 text-xl"

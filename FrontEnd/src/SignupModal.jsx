@@ -1,53 +1,46 @@
-// SignUpModal.jsx
-import React, { useState } from "react";
+// src/SignupModal.jsx
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-
-// ✅ Corrected import paths
 import InputField from "./Components/InputField";
 import Button from "./Components/Button";
+import { UserContext } from "./Context/UserContext"; // ✅ import context
 
 const SignUpModal = ({ show, onClose }) => {
   const [firstName, setFirstName] = useState("");
-  const [middleName, setMiddleName] = useState(""); // optional
+  const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+  const { setIsLoggedIn } = useContext(UserContext); // ✅ get setter
 
-  if (!show) return null; // don’t render if modal is closed
+  if (!show) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic required fields validation
     if (!firstName || !lastName || !email || !phone || !password) {
-      toast.error("Please fill in all required fields");
+      alert("Please fill in all required fields");
       return;
     }
 
-    // Phone validation: only digits & exactly 10 digits
-    const phoneRegex = /^[0-9]{10}$/;
-    if (!phoneRegex.test(phone)) {
-      toast.error("Please enter a valid 10-digit phone number");
-      return;
-    }
+    console.log("User registered:", {
+      firstName,
+      middleName,
+      lastName,
+      email,
+      phone,
+      password,
+    });
 
-    // Show loading toast
-    const id = toast.loading("Signing you up...");
+    // ✅ Mark as logged in globally
+    setIsLoggedIn(true);
 
-    // Simulate async signup
-    setTimeout(() => {
-      toast.success("🎉 You have successfully registered!", { id });
-
-      // navigate to home after signup
-      navigate("/home");
-
-      // close modal
-      onClose();
-    }, 1500);
+    // ✅ Redirect to /home after signup
+    navigate("/home");
+    onClose();
   };
 
   return (
@@ -81,7 +74,6 @@ const SignUpModal = ({ show, onClose }) => {
           className="flex flex-col space-y-4 w-full"
           onSubmit={handleSubmit}
         >
-          {/* First Name */}
           <InputField
             label="First Name"
             type="text"
@@ -90,7 +82,6 @@ const SignUpModal = ({ show, onClose }) => {
             onChange={(e) => setFirstName(e.target.value)}
           />
 
-          {/* Middle Name */}
           <InputField
             label="Middle Name (Optional)"
             type="text"
@@ -99,7 +90,6 @@ const SignUpModal = ({ show, onClose }) => {
             onChange={(e) => setMiddleName(e.target.value)}
           />
 
-          {/* Last Name */}
           <InputField
             label="Last Name"
             type="text"
@@ -108,7 +98,6 @@ const SignUpModal = ({ show, onClose }) => {
             onChange={(e) => setLastName(e.target.value)}
           />
 
-          {/* Email */}
           <InputField
             label="Email"
             type="email"
@@ -117,7 +106,6 @@ const SignUpModal = ({ show, onClose }) => {
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          {/* Phone Number */}
           <div className="w-full">
             <label className="block text-sm font-medium text-gray-400 mb-1">
               Phone Number
@@ -144,7 +132,6 @@ const SignUpModal = ({ show, onClose }) => {
             </div>
           </div>
 
-          {/* Password */}
           <InputField
             label="Password"
             type="password"
@@ -153,7 +140,6 @@ const SignUpModal = ({ show, onClose }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          {/* Sign Up button */}
           <Button type="submit">Sign Up</Button>
 
           <div className="flex items-center my-4">
@@ -162,15 +148,14 @@ const SignUpModal = ({ show, onClose }) => {
             <hr className="flex-grow border-gray-700" />
           </div>
 
-          <Button type="button">Register with Google</Button>
-          <Button type="button">Register with Phone</Button>
+          <Button>Register with Google</Button>
+          <Button>Register with Phone</Button>
         </form>
 
         <div className="flex items-center justify-center mt-4 space-x-2">
           <p className="text-sm text-gray-400 font-medium">
             Already have an account?
           </p>
-          {/* This closes SignUpModal and could open LoginModal */}
           <button
             onClick={onClose}
             className="text-green-400 hover:underline font-medium"
