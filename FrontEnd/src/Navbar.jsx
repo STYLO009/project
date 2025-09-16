@@ -16,6 +16,7 @@ export default function Navbar() {
 
   const { isLoggedIn, setIsLoggedIn } = useContext(UserContext);
 
+  // 🔹 Logout Handler
   const handleLogout = () => {
     toast.loading("Logging out...");
     setTimeout(() => {
@@ -27,9 +28,30 @@ export default function Navbar() {
     }, 1500);
   };
 
+  // 🔹 Try Chatbot Handler
+  const handleTryChatbot = () => {
+    if (!isLoggedIn) {
+      toast("🔒 Please login to use the chatbot", {
+        duration: 2000, // 2 seconds
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
+      setShowLogin(true);
+      return;
+    }
+    window.open(
+      "https://wa.me/919000000000?text=Hi%20I%20want%20to%20try%20the%20health%20chatbot",
+      "_blank"
+    );
+  };
+
   return (
     <>
       <nav className="w-full flex items-center justify-between px-6 py-4 bg-gradient-to-r from-gray-950 to-gray-900 border-b border-gray-800 sticky top-0 z-50">
+        {/* Logo */}
         <div
           className="flex items-center gap-2 cursor-pointer"
           onClick={() => navigate("/home")}
@@ -42,6 +64,7 @@ export default function Navbar() {
           <span className="text-xl font-bold text-green-400">Sanjeevani</span>
         </div>
 
+        {/* Middle Nav Links */}
         <div className="hidden md:flex gap-6 px-6 py-2 rounded-full bg-gray-800/90 backdrop-blur-md border border-gray-700 shadow-lg">
           <Anchortag label="Home" targetId="home" />
           <Anchortag label="About" targetId="about" />
@@ -49,16 +72,17 @@ export default function Navbar() {
           <Anchortag label="Contact" targetId="contact" />
         </div>
 
+        {/* Right Section */}
         <div className="flex items-center gap-2 relative">
-          <a
-            href="https://wa.me/919000000000?text=Hi%20I%20want%20to%20try%20the%20health%20chatbot"
-            target="_blank"
-            rel="noreferrer"
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full font-semibold shadow-md transition"
+          {/* Try Chatbot */}
+          <button
+            onClick={handleTryChatbot}
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full font-semibold shadow-md transition cursor-pointer"
           >
             Try Chatbot
-          </a>
+          </button>
 
+          {/* Login Button */}
           {!isLoggedIn && (
             <button
               onClick={() => setShowLogin(true)}
@@ -68,6 +92,7 @@ export default function Navbar() {
             </button>
           )}
 
+          {/* Profile Menu */}
           {isLoggedIn && (
             <div className="relative">
               <button
@@ -103,6 +128,7 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* Modals */}
       {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
       {showProfile && (
         <ViewProfileModal

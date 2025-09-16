@@ -3,12 +3,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import InputField from "./Components/InputField";
 import Button from "./Components/Button";
+import { toast } from "react-hot-toast"; // ✅ added
 
 /*
   Single-file modal flow:
   - ForgotPasswordModal (exported) contains the whole flow
   - OtpVerificationModal and ResetPasswordModal are inner components
-  - Replace the simulated setTimeouts / alerts with your real API calls
 */
 
 const OtpVerificationModal = ({ emailOrPhone, onClose, onVerified }) => {
@@ -35,26 +35,20 @@ const OtpVerificationModal = ({ emailOrPhone, onClose, onVerified }) => {
   const handleVerify = () => {
     const enteredOtp = otp.join("");
     if (enteredOtp.length < 6) {
-      alert("Please enter a 6-digit code");
+      toast.error("Please enter a 6-digit code");
       return;
     }
 
-    // TODO: call your verify-otp API here and check the response.
-    // If server verifies, call onVerified(tokenOrTrue)
-    // For demo we directly call onVerified:
+    // TODO: call your verify-otp API here
     onVerified(enteredOtp);
   };
 
   const handleResend = () => {
-    // ✅ Clear OTP fields
     setOtp(new Array(6).fill(""));
-    // ✅ Focus the first input again
-    if (inputsRef.current[0]) {
-      inputsRef.current[0].focus();
-    }
+    if (inputsRef.current[0]) inputsRef.current[0].focus();
 
     // TODO: call resend-otp API
-    alert(`OTP resent to ${emailOrPhone}`);
+    toast.success(`OTP resent to ${emailOrPhone}`);
   };
 
   return (
@@ -65,8 +59,7 @@ const OtpVerificationModal = ({ emailOrPhone, onClose, onVerified }) => {
           md:max-w-md md:max-h-[90vh]
           bg-gray-900/95 backdrop-blur-xl
           border-t border-gray-800 md:border md:rounded-3xl
-          shadow-2xl
-          flex flex-col items-center
+          shadow-2xl flex flex-col items-center
           px-6 py-6 md:px-8 md:py-8
           overflow-y-auto scrollbar-hide
         "
@@ -124,26 +117,22 @@ const ResetPasswordModal = ({ emailOrPhone, onClose, onResetSuccess }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   useEffect(() => {
-    if (!emailOrPhone) {
-      // if somehow opened without context, close
-      onClose();
-    }
+    if (!emailOrPhone) onClose();
   }, [emailOrPhone, onClose]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!password || !confirmPassword) {
-      alert("Please fill both fields");
+      toast.error("Please fill both fields");
       return;
     }
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
 
-    // TODO: call your reset-password API here (send emailOrPhone + new password
-    // and any OTP token if your backend requires it). On success:
-    alert(`Password reset successful for ${emailOrPhone}`);
+    // TODO: call your reset-password API here
+    toast.success(`Password reset successful for ${emailOrPhone}`);
 
     setPassword("");
     setConfirmPassword("");
@@ -222,12 +211,11 @@ const ResetPasswordModal = ({ emailOrPhone, onClose, onResetSuccess }) => {
 };
 
 const ForgotPasswordModal = ({ onClose }) => {
-  const [activeTab, setActiveTab] = useState("email"); // 'email' or 'phone'
+  const [activeTab, setActiveTab] = useState("email");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  // flow states
   const [showOtpModal, setShowOtpModal] = useState(false);
   const [showResetModal, setShowResetModal] = useState(false);
   const [emailOrPhoneForOtp, setEmailOrPhoneForOtp] = useState("");
@@ -237,7 +225,7 @@ const ForgotPasswordModal = ({ onClose }) => {
   const handleEmailSubmit = (e) => {
     e.preventDefault();
     if (!email) {
-      alert("Please enter your email");
+      toast.error("Please enter your email");
       return;
     }
 
@@ -249,6 +237,7 @@ const ForgotPasswordModal = ({ onClose }) => {
       setEmailOrPhoneForOtp(email);
       setShowOtpModal(true);
       setEmail("");
+      toast.success("OTP sent to email");
     }, 900);
   };
 
@@ -256,41 +245,37 @@ const ForgotPasswordModal = ({ onClose }) => {
     e.preventDefault();
     const phoneRegex = /^[0-9]{10}$/;
     if (!phoneRegex.test(phone)) {
-      alert("Please enter a valid 10-digit phone number");
+      toast.error("Please enter a valid 10-digit phone number");
       return;
     }
 
     setSubmitted(true);
     const fullPhone = `+91${phone}`;
 
-    // TODO: replace with real API call to request OTP
     setTimeout(() => {
       setSubmitted(false);
       setEmailOrPhoneForOtp(fullPhone);
       setShowOtpModal(true);
       setPhone("");
+      toast.success("OTP sent to phone");
     }, 900);
   };
 
-  // If any submodal is open, we hide the base modal to avoid stacking overlays.
   const baseModalHidden = showOtpModal || showResetModal;
 
   return (
     <>
-      {/* OTP modal */}
       {showOtpModal && (
         <OtpVerificationModal
           emailOrPhone={emailOrPhoneForOtp}
           onClose={() => setShowOtpModal(false)}
           onVerified={(enteredOtp) => {
-            // TODO: you can send enteredOtp to server to verify here. If verified:
             setShowOtpModal(false);
             setShowResetModal(true);
           }}
         />
       )}
 
-      {/* Reset modal */}
       {showResetModal && (
         <ResetPasswordModal
           emailOrPhone={emailOrPhoneForOtp}
@@ -303,7 +288,6 @@ const ForgotPasswordModal = ({ onClose }) => {
         />
       )}
 
-      {/* Base ForgotPassword modal (hidden when OTP/Reset open) */}
       {!baseModalHidden && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
           <div

@@ -88,7 +88,18 @@ const LandingPage = () => {
         </section>
         {/* Card Section */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-gray-200">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+          <div
+            className="
+      grid 
+      grid-cols-1          /* mobile - 1 column */
+      sm:grid-cols-2       /* small screens - 2 columns */
+      md:grid-cols-2       /* medium - 2 columns */
+      lg:grid-cols-3       /* large - 3 columns */
+      xl:grid-cols-5       /* extra large - 5 columns */
+      gap-6
+      justify-items-center /* ⬅️ center each grid item horizontally */
+    "
+          >
             <Card
               textTop="24x7"
               textBottom="Available"
