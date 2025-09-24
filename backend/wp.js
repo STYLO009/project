@@ -3,9 +3,21 @@ import { useMultiFileAuthState } from "@whiskeysockets/baileys";
 import qrcode from "qrcode-terminal";
 import fetch from "node-fetch";
 
-// 🔑 Replace with your Gemini API Key
 const GEMINI_API_KEY = "";
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+// 🔍 Keywords to detect health-related queries
+const HEALTH_KEYWORDS = [
+  "disease", "symptom", "medicine", "doctor", "treatment", "health",
+  "headache", "fever", "pain", "vaccine", "nutrition", "diet",
+  "exercise", "covid", "diabetes", "heart", "skin", "mental health"
+];
+
+// Function to check if message is health-related
+function isHealthQuery(text) {
+  const lower = text.toLowerCase();
+  return HEALTH_KEYWORDS.some((word) => lower.includes(word));
+}
 
 // Function to ask Gemini
 async function askGemini(prompt) {
@@ -40,7 +52,7 @@ async function startBot() {
     const { connection, qr } = update;
     if (qr) {
       console.log("📲 Scan this QR code with WhatsApp:");
-      qrcode.generate(qr, { small: true }); // ✅ Display QR in terminal
+      qrcode.generate(qr, { small: true });
     }
     if (connection === "open") {
       console.log("✅ WhatsApp connected successfully!");
@@ -55,10 +67,17 @@ async function startBot() {
     const userText = msg.message.conversation;
     console.log("User:", userText);
 
-    // 🤖 Get AI response from Gemini
+    if (!isHealthQuery(userText)) {
+      // 🚫 Non-health query
+      await sock.sendMessage(msg.key.remoteJid, { 
+        text: "⚠️ I can only answer health-related questions. Please ask about symptoms, treatments, or wellness." 
+      });
+      return;
+    }
+
+    // ✅ Health-related → Ask Gemini
     const reply = await askGemini(userText);
 
-    // Send reply back to WhatsApp
     await sock.sendMessage(msg.key.remoteJid, { text: reply });
   });
 }
